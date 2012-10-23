@@ -1,5 +1,12 @@
 desc "Compile custom less/bootstrap-build.less to css/"
 task :build do
+
+  # Check for the node.js less module
+  if `which lessc`.chomp == ''
+    puts "Please install the less node package globally [sudo] npm install -g less."
+    exit
+  end
+
   # Current Directory from rake root
   base_path = File.expand_path('../', __FILE__ )
 
