@@ -28,7 +28,7 @@ Now to compile your custom bootstrap from less/bootstrap-build.less, simply run 
 
 #### Usage:
 
-Simple edit less/bootstrap-build.less to include different bootstrap modules. This file was copied from bootstrap/less/bootstrap.less.
+Simply edit less/bootstrap-build.less to include different bootstrap modules. This file was copied from bootstrap/less/bootstrap.less.
 Edit less/variables.less to change bootstarp configuration variables. This file is a direct copy of bootstrap/less/variables.less.
 
 #### Reporting Bugs
