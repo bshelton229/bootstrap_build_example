@@ -29,5 +29,5 @@ task :build do
   # Un-minified
   system "#{command_base} #{source} #{destination}"
   # Minified with the -x option to the min_destination
-  system "#{command_base} -x #{source} #{min_destination}"
+  system "#{command_base} --yui-compress #{source} #{min_destination}"
 end
