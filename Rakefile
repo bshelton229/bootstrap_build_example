@@ -1,33 +1,29 @@
+require 'rubygems'
+require 'bundler/setup'
+require 'less'
+require 'listen'
+
 desc "Compile custom less/bootstrap-build.less to css/"
 task :build do
-
-  # Check for the node.js less module
-  if `which lessc`.chomp == ''
-    puts "Please install the less node package globally [sudo] npm install -g less."
-    exit
+  # The master file we're building
+  build_file = File.expand_path('../less/bootstrap-build.less', __FILE__)
+  parser = Less::Parser.new :paths => [ './less', './bootstrap/less' ], :filename => 'bootstrap-build.less'
+  tree = parser.parse(open(build_file).read)
+  # Save the minified version
+  File.open('./css/compiled-min.css', 'w+') do |f|
+    f.write tree.to_css(:yuicompress => true)
   end
+  # Save the full version
+  File.open('./css/compiled.css', 'w+') do |f|
+    f.write tree.to_css
+  end
+end
 
-  # Current Directory from rake root
-  base_path = File.expand_path('../', __FILE__ )
-
-  # An array of pathes relative to the base for the include path of the less compiler
-  include_paths = %w( bootstrap/less )
-
-  # The less master source file
-  source = File.join(base_path, 'less/bootstrap-build.less')
-  # The destination css file
-  destination = File.join(base_path, 'css/compiled.css')
-  # The destination minified css file
-  min_destination = File.join(base_path, 'css/compiled-min.css')
-
-  # The base command
-  command_base = "lessc --include-path=#{include_paths.map { |p| File.join(base_path, p)}.join(':')}"
-
-  ##
-  # Run the commands
-  ##
-  # Un-minified
-  system "#{command_base} #{source} #{destination}"
-  # Minified with the -x option to the min_destination
-  system "#{command_base} --yui-compress #{source} #{min_destination}"
+desc "Watch all less files and build on change"
+task :watch do
+  puts "I'm watching you...\n"
+  Listen.to(File.expand_path('../', __FILE__), :filter => /\.less$/) do
+    puts "Building #{Time.now.strftime('%r')}\n"
+    Rake::Task["build"].execute
+  end
 end
