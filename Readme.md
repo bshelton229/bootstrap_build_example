@@ -5,9 +5,8 @@ your own .less files without modifying upstream bootstrap. Bootstrap is included
 as a git submodule.
 
 #### System Requirements:
-  * node.js
-  * The less node.js module (installed via npm -g)
-  * A moderately new version of Ruby, for the rake command
+  * Ruby (at least 1.8.7)
+  * Ruby Bundler ( gem install bundler )
 
 #### Installation:
 
@@ -16,15 +15,17 @@ You'll need to make sure you've fetched bootstrap as a submodule in this project
     $ git submodule init
     $ git submodule update
 
-You'll need node.js and npm (included in recent node.js versions) installed. This command will install the node.js less package.
+Install the bundled gems
 
-**NOTE**: This command may need to be run with sudo, depending on your set up.
-
-    $ npm -g install less
+    $ bundle
 
 Now to compile your custom bootstrap from less/bootstrap-build.less, simply run the rake task.
 
     $ rake build
+
+Optionally, start a watcher to automatically re-compile when you change .less files
+
+    $ rake watch
 
 #### Usage:
 
